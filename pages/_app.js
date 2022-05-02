@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../css/navbar.css'
 import { SessionProvider } from "next-auth/react";
 
 function MyApp({ Component, pageProps: {session, ...pageProps} }) {
