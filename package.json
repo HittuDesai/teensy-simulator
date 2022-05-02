@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "fibers": "5.0.1",
+    "firebase": "^9.7.0",
     "next": "12.1.5",
+    "next-auth": "4.0.0-beta.7",
     "node-sass": "7.0.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
