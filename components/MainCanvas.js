@@ -3,24 +3,24 @@ import React from 'react'
 function MainCanvas() {
     return (
         <div className="canvasContainer">
-            <canvas id="mainCanvas" width={1280} height={720} onClick={e => handleMouseClick(e)} onLoad={handleOnLoad()}></canvas>
+            <canvas id="mainCanvas" width={800} height={800} onClick={e => handleMouseClick(e)} onLoad={handleOnLoad()}></canvas>
         </div>
     );
 }
 
 function handleMouseClick(e) {
-    var pixel = 10;
-    var rect = e.currentTarget.getBoundingClientRect();
+    var elem = e.currentTarget;
+    var rect = elem.getBoundingClientRect();
     var clickX = e.pageX - rect.left;
     var clickY = e.pageY - rect.top;
-    console.log(clickX);
-    console.log(clickY);
 
+    var pixel = 10;
     var highlightX = (Math.round(clickX/pixel))*pixel;
     var highlightY = (Math.round(clickY/pixel))*pixel;
+    console.log(highlightX);
+    console.log(highlightY);
     
-    const mainCanvas = document.getElementById("mainCanvas");
-    const mainContext = mainCanvas.getContext('2d');
+    const mainContext = elem.getContext('2d');
     mainContext.fillStyle = 'red';
     mainContext.fillRect(highlightX, highlightY, 1, 1);
 }
