@@ -1,28 +1,53 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 function MainCanvas() {
+    const [startPoint, setStartPoint] = useState([-10, -10]);
+    const [endPoint, setEndPoint] = useState([-10, -10]);
     return (
         <div className="canvasContainer">
-            <canvas id="mainCanvas" width={800} height={800} onClick={e => handleMouseClick(e)} onLoad={handleOnLoad()}></canvas>
+            <canvas id="mainCanvas" width={800} height={800}
+            onMouseDown={e => handleMouseDown(e, setStartPoint)}
+            onMouseUp={e => handleMouseUp(e, setEndPoint)}
+            onClick={e => handleMouseClick(e, startPoint, endPoint)}
+            onLoad={handleOnLoad()}></canvas>
         </div>
     );
 }
 
-function handleMouseClick(e) {
+function handleMouseClick(e, startPoint, endPoint) {
     var elem = e.currentTarget;
-    var rect = elem.getBoundingClientRect();
-    var clickX = e.pageX - rect.left;
-    var clickY = e.pageY - rect.top;
-
-    var pixel = 10;
-    var highlightX = (Math.round(clickX/pixel))*pixel;
-    var highlightY = (Math.round(clickY/pixel))*pixel;
-    console.log(highlightX);
-    console.log(highlightY);
-    
     const mainContext = elem.getContext('2d');
     mainContext.fillStyle = 'red';
-    mainContext.fillRect(highlightX, highlightY, 1, 1);
+    mainContext.fillRect(startPoint[0], startPoint[1], 1, 1);
+    mainContext.fillRect(endPoint[0], endPoint[1], 1, 1);
+}
+
+function handleMouseDown(e, setStartPoint) {
+    var elem = e.currentTarget;
+    var rect = elem.getBoundingClientRect();
+    var mouseX = e.pageX - rect.left;
+    var mouseY = e.pageY - rect.top;
+
+    var pixel = 10;
+    var nearestX = (Math.round(mouseX/pixel))*pixel;
+    var nearestY = (Math.round(mouseY/pixel))*pixel;
+
+    setStartPoint([nearestX, nearestY]);
+}
+
+function handleMouseUp(e, setEndPoint) {
+    var elem = e.currentTarget;
+    var rect = elem.getBoundingClientRect();
+    var mouseX = e.pageX - rect.left;
+    var mouseY = e.pageY - rect.top;
+
+    var pixel = 10;
+    var nearestX = (Math.round(mouseX/pixel))*pixel;
+    var nearestY = (Math.round(mouseY/pixel))*pixel;
+    
+    setEndPoint([nearestX, nearestY]);
+
+    
 }
 
 function handleOnLoad() {
