@@ -1,0 +1,10 @@
+div.canvasContainer {
+    background: var(--thin-grey);
+    padding: 2rem;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    background: var(--thick-grey);
+}

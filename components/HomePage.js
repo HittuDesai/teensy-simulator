@@ -1,14 +1,17 @@
 import React from 'react'
 import { useSession } from 'next-auth/react'
-import signIn from '../pages/auth/signin';
 import NavBar from './NavBar';
+import MainCanvas from './MainCanvas';
 
 function HomePage() {
     const {data: session} = useSession();
     return (
         <React.Fragment>
             { session ? (
-                <NavBar />
+                <React.Fragment>
+                    <NavBar />
+                    <MainCanvas />
+                </React.Fragment>
             ): (
                 <signIn />
             )}
