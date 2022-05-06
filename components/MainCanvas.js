@@ -1,53 +1,64 @@
 import React, { useState } from 'react'
 
 function MainCanvas() {
+    const [isStartPointDone, setIsStartPointDone] = useState(false);
     const [startPoint, setStartPoint] = useState([-10, -10]);
+    const [isEndPointDone, setIsEndPointDone] = useState(false);
     const [endPoint, setEndPoint] = useState([-10, -10]);
+
+    const stateArray = {
+        "startBool": [isStartPointDone, value => setIsStartPointDone(value)],
+        "start": [startPoint, value => setStartPoint(value)],
+        "endBool": [isEndPointDone, value => setIsEndPointDone(value)],
+        "end": [endPoint, value => setEndPoint(value)],
+    };
+
     return (
         <div className="canvasContainer">
             <canvas id="mainCanvas" width={800} height={800}
-            onMouseDown={e => handleMouseDown(e, setStartPoint)}
-            onMouseUp={e => handleMouseUp(e, setEndPoint)}
-            onClick={e => handleMouseClick(e, startPoint, endPoint)}
+            onClick={e => handleMouseClick(e, stateArray)}
             onLoad={handleOnLoad()}></canvas>
         </div>
     );
 }
 
-function handleMouseClick(e, startPoint, endPoint) {
-    var elem = e.currentTarget;
-    const mainContext = elem.getContext('2d');
-    mainContext.fillStyle = 'red';
-    mainContext.fillRect(startPoint[0], startPoint[1], 1, 1);
-    mainContext.fillRect(endPoint[0], endPoint[1], 1, 1);
-}
-
-function handleMouseDown(e, setStartPoint) {
+function handleMouseClick(e, stateArray) {
     var elem = e.currentTarget;
     var rect = elem.getBoundingClientRect();
-    var mouseX = e.pageX - rect.left;
-    var mouseY = e.pageY - rect.top;
-
-    var pixel = 10;
-    var nearestX = (Math.round(mouseX/pixel))*pixel;
-    var nearestY = (Math.round(mouseY/pixel))*pixel;
-
-    setStartPoint([nearestX, nearestY]);
-}
-
-function handleMouseUp(e, setEndPoint) {
-    var elem = e.currentTarget;
-    var rect = elem.getBoundingClientRect();
-    var mouseX = e.pageX - rect.left;
-    var mouseY = e.pageY - rect.top;
-
-    var pixel = 10;
-    var nearestX = (Math.round(mouseX/pixel))*pixel;
-    var nearestY = (Math.round(mouseY/pixel))*pixel;
     
-    setEndPoint([nearestX, nearestY]);
+    var pixel = 10;
+    var x = e.clientX-rect.left;
+    x = (Math.round(x/pixel))*pixel;
+    var y = e.clientY-rect.top;
+    y = (Math.round(y/pixel))*pixel;
 
-    
+    var startBoolArray = stateArray["startBool"];
+    var startArray = stateArray["start"];
+    var endBoolArray = stateArray["endBool"];
+    var endArray = stateArray["end"];
+
+    if(!startBoolArray[0]) {
+        startBoolArray[1](true);
+        startArray[1]([x, y]);
+    }
+    else if(startBoolArray[0] && !endBoolArray[0]) {
+        startBoolArray[1](false);
+        endBoolArray[1](false);
+        endArray[1]([x, y]);
+        console.log("START: ", startArray[0][0], startArray[0][1]);
+        console.log("END: ", x, y);
+        
+        const mainContext = elem.getContext('2d');
+        mainContext.strokeStyle = 'blue';
+        mainContext.beginPath();
+        mainContext.moveTo(startArray[0][0], startArray[0][1]);
+        mainContext.lineTo(x, y);
+        mainContext.stroke();
+
+        /*mainContext.fillStyle = 'green';
+        mainContext.fillRect(startArray[0][0], startArray[0][1], 1, 1);
+        mainContext.fillRect(x, y, 1, 1);*/
+    }
 }
 
 function handleOnLoad() {
