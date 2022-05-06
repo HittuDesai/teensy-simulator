@@ -3,21 +3,19 @@ import React, { useState } from 'react'
 function MainCanvas() {
     const [isStartPointDone, setIsStartPointDone] = useState(false);
     const [startPoint, setStartPoint] = useState([-10, -10]);
-    const [isEndPointDone, setIsEndPointDone] = useState(false);
-    const [endPoint, setEndPoint] = useState([-10, -10]);
+    const [linePoints, setLinePoints] = useState([]);
 
     const stateArray = {
         "startBool": [isStartPointDone, value => setIsStartPointDone(value)],
         "start": [startPoint, value => setStartPoint(value)],
-        "endBool": [isEndPointDone, value => setIsEndPointDone(value)],
-        "end": [endPoint, value => setEndPoint(value)],
+        "linePoints": [linePoints, value => setLinePoints(value)],
     };
 
     return (
         <div className="canvasContainer">
             <canvas id="mainCanvas" width={800} height={800}
             onClick={e => handleMouseClick(e, stateArray)}
-            onLoad={handleOnLoad()}></canvas>
+            onLoad={handleOnLoad(linePoints)}></canvas>
         </div>
     );
 }
@@ -34,34 +32,24 @@ function handleMouseClick(e, stateArray) {
 
     var startBoolArray = stateArray["startBool"];
     var startArray = stateArray["start"];
-    var endBoolArray = stateArray["endBool"];
-    var endArray = stateArray["end"];
+    var linePointsArray = stateArray["linePoints"];
 
     if(!startBoolArray[0]) {
         startBoolArray[1](true);
         startArray[1]([x, y]);
     }
-    else if(startBoolArray[0] && !endBoolArray[0]) {
+    else if(startBoolArray[0]) {
         startBoolArray[1](false);
-        endBoolArray[1](false);
-        endArray[1]([x, y]);
-        console.log("START: ", startArray[0][0], startArray[0][1]);
-        console.log("END: ", x, y);
         
-        const mainContext = elem.getContext('2d');
-        mainContext.strokeStyle = 'blue';
-        mainContext.beginPath();
-        mainContext.moveTo(startArray[0][0], startArray[0][1]);
-        mainContext.lineTo(x, y);
-        mainContext.stroke();
-
-        /*mainContext.fillStyle = 'green';
-        mainContext.fillRect(startArray[0][0], startArray[0][1], 1, 1);
-        mainContext.fillRect(x, y, 1, 1);*/
+        const obj = {
+            "start": startArray[0],
+            "end": [x, y],
+        }
+        linePointsArray[1]([...linePointsArray[0], obj]);
     }
 }
 
-function handleOnLoad() {
+function handleOnLoad(linePoints) {
     const mainCanvas = document.getElementById("mainCanvas");
     if(mainCanvas) {
         var rect = mainCanvas.getBoundingClientRect();
@@ -77,7 +65,32 @@ function handleOnLoad() {
                 mainContext.fillRect(i*pixel, j*pixel, 1, 1);
             }
         }
+
+        setInterval(drawCanvas, 1000, linePoints);
     }
+}
+
+function drawCanvas(linePoints) {
+    if(linePoints.length == 0)
+        return;
+    linePoints.map(line => {
+        console.log("DRAWING A LINE");
+        var startX = line["start"][0];
+        var startY = line["start"][1];
+        var endX = line["end"][0];
+        var endY = line["end"][1];
+
+        const mainContext = document.getElementById("mainCanvas").getContext('2d');
+        mainContext.strokeStyle = 'blue';
+        mainContext.beginPath();
+        mainContext.moveTo(startX, startY);
+        mainContext.lineTo(endX, endY);
+        mainContext.stroke();
+
+        mainContext.fillStyle = 'green';
+        mainContext.fillRect(startX, startY, 1, 1);
+        mainContext.fillRect(endX, endY, 1, 1);
+    });
 }
 
 export default MainCanvas;
