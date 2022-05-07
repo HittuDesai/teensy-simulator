@@ -18,13 +18,8 @@ div.left, div.right {
 
 div.left {
     display: flex;
-    justify-content: space-between;
 
     padding-left: 1.5rem;
-}
-
-div.right {
-    padding-right: 1.5rem;
 }
 
 div.open, div.new {
@@ -40,9 +35,32 @@ div.open {
     margin-right: 0.5rem;
 }
 
-div.open:hover, div.new:hover {
+.animate:hover, .animate:hover {
     cursor: pointer;
     animation: pulsate 1.5s linear infinite;
+}
+
+div.right {
+    position: relative;
+    display: flex;
+
+    height: 100%;
+    
+    padding-right: 1.5rem;
+}
+
+.userLogo {
+    border-radius: 50%;
+    height: 70%;
+}
+
+.userName {
+    padding: 0 1rem;
+    color: var(--thin-grey);
+}
+
+.signOut {
+    color: red;
 }
 
 @keyframes pulsate {

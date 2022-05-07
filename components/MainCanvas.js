@@ -13,9 +13,9 @@ function MainCanvas() {
 
     return (
         <div className="canvasContainer">
-            <canvas id="mainCanvas" width={800} height={800}
+            <canvas id="mainCanvas" width={690} height={690}
             onClick={e => handleMouseClick(e, stateArray)}
-            onLoad={handleOnLoad(linePoints)}></canvas>
+            onLoad={handleOnLoad()}></canvas>
         </div>
     );
 }
@@ -45,11 +45,13 @@ function handleMouseClick(e, stateArray) {
             "start": startArray[0],
             "end": [x, y],
         }
-        linePointsArray[1]([...linePointsArray[0], obj]);
+        var newLinePointsArray = [...linePointsArray[0], obj];
+        drawCanvas(newLinePointsArray);
+        linePointsArray[1](newLinePointsArray);
     }
 }
 
-function handleOnLoad(linePoints) {
+function handleOnLoad() {
     const mainCanvas = document.getElementById("mainCanvas");
     if(mainCanvas) {
         var rect = mainCanvas.getBoundingClientRect();
@@ -65,16 +67,16 @@ function handleOnLoad(linePoints) {
                 mainContext.fillRect(i*pixel, j*pixel, 1, 1);
             }
         }
-
-        setInterval(drawCanvas, 1000, linePoints);
     }
 }
 
 function drawCanvas(linePoints) {
-    if(linePoints.length == 0)
+    if(linePoints.length == 0) {
+        console.log("ZERO LENGTH");
         return;
+    }
+    console.log("DRAWING LINE");
     linePoints.map(line => {
-        console.log("DRAWING A LINE");
         var startX = line["start"][0];
         var startY = line["start"][1];
         var endX = line["end"][0];

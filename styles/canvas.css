@@ -1,6 +1,7 @@
 div.canvasContainer {
     background: var(--thin-grey);
     padding: 2rem;
+    height: auto;
 }
 
 canvas {

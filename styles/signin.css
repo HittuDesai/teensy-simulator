@@ -1,0 +1,78 @@
+.outerDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh;
+    padding-bottom: 10rem;
+
+    background-color: var(--light-grey);
+}
+
+.youHaveNotSignedIn {
+    display: flex;
+    flex-direction: column;
+
+    width: 50vw;
+
+    text-align: center;
+}
+
+.firstLine, .secondLine {
+    font-size: 1.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.secondLine {
+    padding-bottom: 3rem;
+}
+
+.appLogo {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+
+    border-radius: 50%;
+}
+
+.signInNowButton {
+    width: fit-content;
+    margin: auto;
+    margin-top: 3rem;
+    padding: 1rem 2rem;
+
+    border: none;
+    border-radius: 0.5rem;
+
+    background-color: var(--thin-grey);
+}
+
+.signInCard {
+    display: flex;
+
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--light-grey);
+}
+
+.providerButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    width: fit-content;
+    margin: auto;
+    padding: 1rem 1rem;
+
+    border: none;
+    border-radius: 0.5rem;
+
+    background-color: var(--thin-grey);
+}
+
+.providerLabel {
+    padding-left: 1rem;
+    font-weight: bold;
+}

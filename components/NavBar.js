@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { FaSignOutAlt } from 'react-icons/fa'
 
@@ -8,20 +8,20 @@ function NavBar() {
     return (
         <nav>
             <div className='left'>
-                <div className="open">
+                <div className="open animate">
                     Open Project
                 </div>
-                <div className="new">
+                <div className="new animate">
                     Create New Project
                 </div>
             </div>
             <div className="right">
-                <img 
+                <img
                     className="userLogo"
                     src={session.user.image}
                 />
                 <p className="userName">{session.user.name}</p>
-                <FaSignOutAlt className=''/>
+                <FaSignOutAlt onClick={signOut} color='white' className='animate' />
             </div>
         </nav>
     );
