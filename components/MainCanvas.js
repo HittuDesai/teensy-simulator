@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import Teensy from './Teensy'
+import SDCard from './SDCard'
 
 function MainCanvas() {
     const [isStartPointDone, setIsStartPointDone] = useState(false);
@@ -13,9 +15,12 @@ function MainCanvas() {
 
     return (
         <div className="canvasContainer">
-            <canvas id="mainCanvas" width={690} height={690}
+            <canvas id="mainCanvas" width={700} height={700}
             onClick={e => handleMouseClick(e, stateArray)}
-            onLoad={handleOnLoad()}></canvas>
+            onLoad={handleOnLoad()}>
+            </canvas>
+            <Teensy />
+            <SDCard />
         </div>
     );
 }
@@ -68,6 +73,8 @@ function handleOnLoad() {
             }
         }
     }
+
+
 }
 
 function drawCanvas(linePoints) {
@@ -75,7 +82,7 @@ function drawCanvas(linePoints) {
         console.log("ZERO LENGTH");
         return;
     }
-    console.log("DRAWING LINE");
+    console.log(linePoints);
     linePoints.map(line => {
         var startX = line["start"][0];
         var startY = line["start"][1];

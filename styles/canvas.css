@@ -1,9 +1,12 @@
 div.canvasContainer {
     background: var(--thin-grey);
-    padding: 2rem;
+    margin: 2rem;
     height: auto;
+    position: relative;
 }
 
 canvas {
+    position: relative;
+    z-index: 0;
     background: var(--thick-grey);
 }

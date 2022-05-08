@@ -7,7 +7,6 @@ import { FcElectricity } from 'react-icons/fc'
 
 function HomePage() {
     const {data: session} = useSession();
-    console.log(session?.user?.email)
     return (
         <React.Fragment>
             { session ? (
